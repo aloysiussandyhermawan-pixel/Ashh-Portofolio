@@ -1,210 +1,483 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="en" class="transition-colors duration-300">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Xshh Portofolio</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Xshh — Portfolio</title>
 
-  <!-- Bootstrap -->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <!-- Meta OpenGraph / Twitter -->
+  <meta property="og:title" content="Xshh - Personal Portfolio"/>
+  <meta property="og:description" content="Personal web portfolio by Xshh."/>
+  <meta property="og:image" content="https://files.catbox.moe/7x1rs0.png"/>
+  <meta property="og:type" content="website"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" content="Xshh - Personal Portfolio"/>
+  <meta name="twitter:description" content="Explore the digital world of Xshh."/>
+  <meta name="twitter:image" content="https://files.catbox.moe/7x1rs0.png"/>
 
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <!-- Tailwind + Font -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = { darkMode: 'class' }
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
 
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Pacifico&display=swap" rel="stylesheet">
+
+  <style>
+    :root { --primary-color: #0F0F0F; --secondary-color: #9B59B6; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Poppins', sans-serif; }
+    /* small visual tweaks */
+    .link-card { transition: transform .25s ease, box-shadow .25s ease; border-radius: 12px; overflow: hidden; }
+    .link-card:hover { transform: translateY(-6px); box-shadow: 0 12px 30px rgba(2,6,23,0.12); }
+    .social-icon { transition: transform .2s ease; }
+    .social-icon:hover { transform: scale(1.05); }
+    /* shiny badge */
+    .shiny-badge { position: relative; overflow: hidden; background-color: #f1f5f9; color:#334155; }
+    .dark .shiny-badge { background-color:#0f1724; color:#e2e8f0; }
+    .shiny-badge::before { content:""; position:absolute; top:0; left:-75%; width:150%; height:100%;
+      background: linear-gradient(120deg, rgba(255,255,255,0), rgba(255,255,255,0.5), rgba(255,255,255,0));
+      animation: shine 2.5s infinite; z-index:0; }
+    .shiny-badge > * { position:relative; z-index:1; }
+    @keyframes shine { 0%{left:-75%} 100%{left:100%} }
+
+    /* crown glow + particle */
+    @keyframes crown-glow { 0%{filter: drop-shadow(0 0 3px #facc15); opacity:1} 50%{filter:drop-shadow(0 0 6px #fde68a);opacity:.75} 100%{filter:drop-shadow(0 0 3px #facc15);opacity:1} }
+    .glow-crown { animation: crown-glow 1.5s infinite ease-in-out; }
+    .particle-crown::before, .particle-crown::after { content:''; position:absolute; top:90%; left:50%; width:3px; height:3px; background:#facc15; border-radius:50%; opacity:0; animation:dust-fall 2s infinite ease-in-out; }
+    .particle-crown::after { left:55%; animation-delay:1s; }
+    @keyframes dust-fall { 0%{transform:translateY(0) scale(1);opacity:0} 30%{opacity:1} 100%{transform:translateY(15px) scale(.5);opacity:0} }
+
+    /* music progress minimal */
+    .progress-bar { transition: width .1s linear; height:100%; background:var(--primary-color); border-radius:2px; }
+
+    /* small responsive tweaks for project thumbnails */
+    .project-thumb { aspect-ratio: 16/9; object-fit: cover; border-radius:8px; width:100%; display:block; }
+
+    /* navbar blur on scroll (small effect) */
+    .nav-backdrop { backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
+  </style>
 </head>
-<body>
+<body class="bg-white text-gray-900 dark:bg-gray-900 dark:text-white transition-colors duration-300">
 
-<!-- navbar -->
-<nav class="navbar navbar-default">
-  <div class="container">
-    <div class="navbar-header">
-      
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#mynav">
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-     </button>
-                                                                                      
-      <a class="navbar-brand xshhbar" id="mypage" href="#">Xshh</a>
-    </div>
-    
-    <div class="collapse navbar-collapse" id="mynav">
-    <ul class="nav navbar-nav navbar-right vnav">
-      <li class="active"><a href="#">Home</a></li>
-      <li><a href="#project">Project</a></li>
-      <li><a href="#certificate">Certificate</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
-    </div>
-    
-  </div>
-</nav>
+  <!-- NAVBAR -->
+  <header class="fixed w-full z-40">
+    <nav id="topnav" class="nav-backdrop bg-white/70 dark:bg-gray-900/60 border-b border-gray-100 dark:border-gray-800">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between h-16">
+          <a href="#home" class="flex items-center gap-3">
+            <img src="https://files.catbox.moe/7x1rs0.png" alt="logo" class="w-9 h-9 rounded-full border-2 border-white dark:border-gray-800"/>
+            <span class="font-semibold text-lg">Xshh</span>
+          </a>
 
-<!-- header -->
-<div class="container-fluid header1 text-center marginb">
-  <h3 class="h3v marginb">Hi!</h3>
-  <img class="img-responsive img-circle center-block pimg marginb" src="https://files.catbox.moe/heqgx6.jpg" alt="profile">
-  <h3 class="h3v2">My name is Xshh, <br>i'm UI/UX designer and front-end developer</h3>
-</div>
+          <div class="hidden md:flex items-center gap-6">
+            <a href="#home" class="hover:underline">Home</a>
+            <a href="#about" class="hover:underline">About</a>
+            <a href="#projects" class="hover:underline">Projects</a>
+            <a href="#certificate" class="hover:underline">Certificate</a>
+            <a href="#contact" class="hover:underline">Contact</a>
+            <button id="theme-toggle" class="p-2 rounded-md shiny-badge"><i id="theme-icon" class="fas fa-moon"></i></button>
+          </div>
 
-<!-- project -->
-<div class="container marginb" id="project">
-  <h3 class="h3v2 text-center">Project</h3><hr>
-  <div class="row">
-    
-    <div class="col-sm-6">
-      <div class="thumbnail">
-        <a class="cap2" href="https://xshh-portofolio-page.vercel.app/">
-          <img src="https://files.catbox.moe/z5b8ul.png" target="_blank" class="img-responsive">
-          <div class="caption text-center">
-            <p>Portofolio Page</p>
+          <!-- mobile -->
+          <div class="md:hidden flex items-center">
+            <button id="theme-toggle-sm" class="p-2 rounded-md shiny-badge mr-2"><i class="fas fa-moon"></i></button>
+            <button id="mobile-menu-btn" aria-expanded="false" class="p-2 rounded-md border border-gray-200 dark:border-gray-700">
+              <i class="fas fa-bars"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- mobile menu content -->
+      <div id="mobile-menu" class="hidden md:hidden">
+        <div class="px-4 pb-4 space-y-2">
+          <a href="#home" class="block">Home</a>
+          <a href="#about" class="block">About</a>
+          <a href="#projects" class="block">Projects</a>
+          <a href="#certificate" class="block">Certificate</a>
+          <a href="#contact" class="block">Contact</a>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main class="pt-20">
+
+    <!-- BANNER / HERO -->
+    <section id="home" class="banner relative">
+      <div class="h-48 md:h-56 bg-cover bg-center" style="background-image:url('https://files.catbox.moe/hsi6dw.gif')"></div>
+
+      <div class="max-w-4xl mx-auto px-4 -mt-14">
+        <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg relative">
+          <!-- profile row -->
+          <div class="flex flex-col md:flex-row items-center gap-4">
+            <div class="relative">
+              <div class="w-32 h-32 bg-white dark:bg-gray-900 rounded-full flex items-center justify-center shadow-lg border-4 border-white dark:border-gray-800 overflow-hidden">
+                <img src="https://files.catbox.moe/7x1rs0.png" alt="Profile" class="w-full h-full object-cover"/>
+                <i class="fas fa-crown text-yellow-400 text-xl absolute -top-2 right-2 rotate-[25deg] glow-crown"></i>
+                <i class="fas fa-crown text-yellow-400 text-xl absolute -top-2 right-2 rotate-[25deg] glow-crown particle-crown"></i>
+              </div>
+            </div>
+
+            <div class="flex-1 text-center md:text-left">
+              <h1 class="text-2xl md:text-3xl font-bold">Xshh <span class="text-sm text-gray-500 dark:text-gray-300"> (Aloysius Sandy H.O)</span></h1>
+              <p class="mt-1 text-gray-600 dark:text-gray-300">I build websites, design UI/UX, and make small projects to learn. Making a Website and Chilling.</p>
+
+              <div class="mt-3 flex flex-wrap gap-2 items-center justify-center md:justify-start">
+                <span class="badge shiny-badge px-3 py-1 text-sm flex items-center gap-2"><i class="fas fa-music text-indigo-500"></i><span>Music Lover</span></span>
+                <span class="badge shiny-badge px-3 py-1 text-sm flex items-center gap-2"><i class="fas fa-code text-green-500"></i><span>Dev</span></span>
+                <span class="badge shiny-badge px-3 py-1 text-sm flex items-center gap-2"><i class="fas fa-gamepad text-pink-500"></i><span>Gamer</span></span>
+                <span id="birthday-countdown" class="badge shiny-badge px-3 py-1 text-sm flex items-center gap-2"><i class="fas fa-calendar-day"></i><span id="birthday-countdown-text">Loading...</span></span>
+              </div>
+
+              <div class="mt-4 flex items-center gap-3 justify-center md:justify-start">
+                <a href="https://github.com/aloysiussandyhermawan-pixel" class="social-icon w-10 h-10 flex items-center justify-center rounded-full bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow">
+                  <i class="fab fa-github"></i>
+                </a>
+                <a href="https://www.instagram.com/its.notxshh/" class="social-icon w-10 h-10 flex items-center justify-center rounded-full bg-white dark:bg-gray-700 text-pink-500 dark:text-pink-300 shadow">
+                  <i class="fab fa-instagram"></i>
+                </a>
+                <a href="https://wa.me/6281392486568" class="social-icon w-10 h-10 flex items-center justify-center rounded-full bg-white dark:bg-gray-700 text-green-500 dark:text-green-300 shadow">
+                  <i class="fab fa-whatsapp"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- music player -->
+          <div class="music-player mt-5 bg-white dark:bg-gray-900 rounded-lg p-4 shadow md:flex md:items-center md:gap-4">
+            <div class="flex-shrink-0 w-20 h-20 rounded-md overflow-hidden">
+              <img src="https://files.catbox.moe/lcm89p.webp" alt="cover" class="w-full h-full object-cover"/>
+            </div>
+
+            <div class="flex-1 mt-3 md:mt-0">
+              <audio id="audio-player" src="https://files.catbox.moe/33k8lo.mp3"></audio>
+              <div class="flex items-center gap-3">
+                <button class="play-button p-2 rounded-full border" onclick="togglePlay()"><i class="fas fa-play"></i></button>
+                <div class="w-full">
+                  <div class="progress-container h-2 bg-gray-200 dark:bg-gray-700 rounded-md cursor-pointer" onclick="seek(event)">
+                    <div id="progress-bar" class="progress-bar w-0 h-full rounded-md"></div>
+                  </div>
+                  <div class="flex justify-between text-xs text-gray-500 dark:text-gray-400 mt-1">
+                    <span id="current-time">0:00</span>
+                    <span id="duration">0:00</span>
+                  </div>
+                </div>
+              </div>
+              <div class="mt-2 text-sm font-medium music-title">homesick - wave to earth</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about" class="max-w-4xl mx-auto px-4 py-12">
+      <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow">
+        <h2 class="text-xl font-bold mb-3">About Me</h2>
+        <p class="text-gray-600 dark:text-gray-300 mb-4">
+          Hi — I'm <strong>Xshh</strong> (Aloysius Sandy H.O). I'm passionate about UI/UX design and front-end development.
+          I like crafting clean interfaces and learning new web techniques. I build small personal projects like music players,
+          portfolio pages, and community websites to sharpen my skills.
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <h3 class="font-semibold">What I do</h3>
+            <ul class="list-disc ml-5 mt-2 text-gray-600 dark:text-gray-300">
+              <li>Front-end development (HTML, CSS, JS, Tailwind)</li>
+              <li>UI / UX design and prototyping</li>
+              <li>Personal projects: music players, portfolio pages, community sites</li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="font-semibold">Tools & Skills</h3>
+            <div class="flex flex-wrap gap-2 mt-2">
+              <span class="px-3 py-1 shiny-badge text-sm">HTML</span>
+              <span class="px-3 py-1 shiny-badge text-sm">CSS</span>
+              <span class="px-3 py-1 shiny-badge text-sm">JavaScript</span>
+              <span class="px-3 py-1 shiny-badge text-sm">Tailwind</span>
+              <span class="px-3 py-1 shiny-badge text-sm">Figma</span>
+              <span class="px-3 py-1 shiny-badge text-sm">Git</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-4">
+          <h3 class="font-semibold mb-2">Experience / Notes</h3>
+          <p class="text-gray-600 dark:text-gray-300 text-sm">
+            I study by building—so most of my skills are self-driven through project work and deploying to platforms
+            like Vercel. If you want to collaborate or hire me for a simple front-end / UI task, hit the contact section below.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="projects" class="max-w-4xl mx-auto px-4 py-12">
+      <div class="flex items-center justify-between mb-6">
+        <h2 class="text-xl font-bold">Projects</h2>
+        <p class="text-sm text-gray-500 dark:text-gray-400">Click thumbnails to open project</p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        <!-- Project 1 -->
+        <a href="https://xshh-portofolio-page.vercel.app/" target="_blank" class="group link-card bg-white dark:bg-gray-800 p-3 shadow">
+          <img src="https://files.catbox.moe/z5b8ul.png" alt="Portofolio Page" class="project-thumb mb-3"/>
+          <div class="flex items-center justify-between">
+            <div>
+              <h3 class="font-semibold">Portofolio Page</h3>
+              <p class="text-xs text-gray-500 dark:text-gray-400">Personal portfolio page</p>
+            </div>
+            <i class="fas fa-chevron-right text-gray-400 group-hover:text-indigo-500"></i>
+          </div>
+        </a>
+
+        <!-- Project 2 -->
+        <a href="https://u-tech-website.vercel.app/" target="_blank" class="group link-card bg-white dark:bg-gray-800 p-3 shadow">
+          <img src="https://files.catbox.moe/iqm9bt.png" alt="U-Tech Website" class="project-thumb mb-3"/>
+          <div class="flex items-center justify-between">
+            <div>
+              <h3 class="font-semibold">U-Tech Website</h3>
+              <p class="text-xs text-gray-500 dark:text-gray-400">Community website</p>
+            </div>
+            <i class="fas fa-chevron-right text-gray-400 group-hover:text-indigo-500"></i>
+          </div>
+        </a>
+
+        <!-- Project 3 -->
+        <a href="https://portofolio-3-d-print.vercel.app/" target="_blank" class="group link-card bg-white dark:bg-gray-800 p-3 shadow">
+          <img src="https://placehold.co/600x338?text=3D+Print" alt="3D Print" class="project-thumb mb-3"/>
+          <div class="flex items-center justify-between">
+            <div>
+              <h3 class="font-semibold">Portofolio 3D Print</h3>
+              <p class="text-xs text-gray-500 dark:text-gray-400">3D printing showcase</p>
+            </div>
+            <i class="fas fa-chevron-right text-gray-400 group-hover:text-indigo-500"></i>
+          </div>
+        </a>
+
+        <!-- Project 4 -->
+        <a href="https://music-player-project-one.vercel.app/" target="_blank" class="group link-card bg-white dark:bg-gray-800 p-3 shadow">
+          <img src="https://files.catbox.moe/1803k1.png" alt="Music Playlist" class="project-thumb mb-3"/>
+          <div class="flex items-center justify-between">
+            <div>
+              <h3 class="font-semibold">Music Playlist</h3>
+              <p class="text-xs text-gray-500 dark:text-gray-400">Music player project</p>
+            </div>
+            <i class="fas fa-chevron-right text-gray-400 group-hover:text-indigo-500"></i>
+          </div>
+        </a>
+
+        <!-- Project 5 -->
+        <a href="https://portofolio-robotic.vercel.app/" target="_blank" class="group link-card bg-white dark:bg-gray-800 p-3 shadow">
+          <img src="https://placehold.co/600x338?text=Robotic" alt="Robotic" class="project-thumb mb-3"/>
+          <div class="flex items-center justify-between">
+            <div>
+              <h3 class="font-semibold">Portofolio Robotic</h3>
+              <p class="text-xs text-gray-500 dark:text-gray-400">Robotics projects</p>
+            </div>
+            <i class="fas fa-chevron-right text-gray-400 group-hover:text-indigo-500"></i>
+          </div>
+        </a>
+
+        <!-- Project 6 -->
+        <a href="https://portofolio-metaverse.vercel.app/" target="_blank" class="group link-card bg-white dark:bg-gray-800 p-3 shadow">
+          <img src="https://placehold.co/600x338?text=Metaverse" alt="Metaverse" class="project-thumb mb-3"/>
+          <div class="flex items-center justify-between">
+            <div>
+              <h3 class="font-semibold">Portofolio Metaverse</h3>
+              <p class="text-xs text-gray-500 dark:text-gray-400">Metaverse concept</p>
+            </div>
+            <i class="fas fa-chevron-right text-gray-400 group-hover:text-indigo-500"></i>
           </div>
         </a>
       </div>
-    </div>
-    
-    <div class="col-sm-6">
-      <div class="thumbnail">
-        <a class="cap2" href="https://u-tech-website.vercel.app/">
-          <img src="https://files.catbox.moe/iqm9bt.png" target="_blank" class="img-responsive">
-          <div class="caption text-center">
-            <p>U-Tech Website</p>
-          </div>
-        </a>
-      </div>
-    </div>
-  </div>
-  
-  
-  <div class="row">
-    
-    <div class="col-sm-6">
-      <div class="thumbnail">
-        <a class="cap2" href="https://portofolio-3-d-print.vercel.app/">
-          <img src="" target="_blank" class="img-responsive">
-          <div class="caption text-center">
-            <p>Portofolio 3D Print</p>
-          </div>
-        </a>
-      </div>
-    </div>
-    
-    <div class="col-sm-6">
-      <div class="thumbnail">
-        <a class="cap2" href="https://music-player-project-one.vercel.app/">
-          <img src="https://files.catbox.moe/1803k1.png" target="_blank" class="img-responsive">
-          <div class="caption text-center">
-            <p>Music Playlist</p>
-          </div>
-        </a>
-      </div>
-    </div>
-  </div>
+    </section>
 
-  <div class="row">
-    
-    <div class="col-sm-6">
-      <div class="thumbnail">
-        <a class="cap2" href="https://portofolio-robotic.vercel.app/">
-          <img src="" target="_blank" class="img-responsive">
-          <div class="caption text-center">
-            <p>Portofolio Robotic</p>
+    <!-- CERTIFICATES -->
+    <section id="certificate" class="max-w-4xl mx-auto px-4 py-12">
+      <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow">
+        <h2 class="text-xl font-bold mb-4">Certificate</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <a href="https://files.catbox.moe/4wklut.png" target="_blank" class="group">
+            <img src="https://files.catbox.moe/4wklut.png" alt="certificate" class="rounded-md shadow-sm w-full object-cover"/>
+            <div class="mt-2 text-sm text-gray-600 dark:text-gray-300">Japanese Open House 2024/2025</div>
+          </a>
+
+          <div>
+            <div class="mb-3">
+              <img src="https://placehold.co/600x338?text=Certificate+Placeholder" alt="cert2" class="rounded-md shadow-sm w-full object-cover"/>
+              <div class="mt-2 text-sm text-gray-600 dark:text-gray-300">Japanese Open House 2025/2026 (placeholder)</div>
+            </div>
+            <div>
+              <img src="https://placehold.co/600x338?text=Certificate+Placeholder" alt="cert3" class="rounded-md shadow-sm w-full object-cover"/>
+              <div class="mt-2 text-sm text-gray-600 dark:text-gray-300">U-Tech 2025/2026 (placeholder)</div>
+            </div>
           </div>
-        </a>
+        </div>
       </div>
-    </div>
-    
-    <div class="col-sm-6">
-      <div class="thumbnail">
-        <a class="cap2" href="https://portofolio-metaverse.vercel.app/">
-          <img src="" target="_blank" class="img-responsive">
-          <div class="caption text-center">
-            <p>Portofolio Metaverse</p>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="max-w-4xl mx-auto px-4 py-12">
+      <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow">
+        <h2 class="text-xl font-bold mb-4">Get in touch</h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <p class="text-gray-600 dark:text-gray-300">Prefer quick contact? Use the social links or send me a message using the form.</p>
+
+            <div class="mt-4 space-y-2">
+              <a href="https://github.com/aloysiussandyhermawan-pixel" class="inline-flex items-center gap-2 px-3 py-2 rounded-md border"> <i class="fab fa-github"></i> GitHub</a>
+              <a href="https://www.instagram.com/its.notxshh/" class="inline-flex items-center gap-2 px-3 py-2 rounded-md border"> <i class="fab fa-instagram"></i> Instagram</a>
+              <a href="https://wa.me/6281392486568" class="inline-flex items-center gap-2 px-3 py-2 rounded-md border"> <i class="fab fa-whatsapp"></i> WhatsApp</a>
+            </div>
           </div>
-        </a>
-      </div>
-    </div>
-  </div>
-</div>
 
-<!-- certificate -->
-<div class="container marginb" id="certificate">
-  <h3 class="h3v2 text-center">Certificate</h3><hr>
-  <div class="row">
-    
-    <div class="col-sm-6">
-      <div class="thumbnail">
-        <a class="cap2" href="https://files.catbox.moe/4wklut.png">
-          <img src="https://files.catbox.moe/4wklut.png" target="_blank" class="img-responsive">
-          <div class="caption text-center">
-            <p>Japanese Open House 2024/2025</p>
+          <div>
+            <!-- simple mailto form (no server needed) -->
+            <form id="contact-form" action="mailto:your-email@example.com" method="post" enctype="text/plain" class="space-y-3">
+              <input name="name" required class="w-full rounded-md px-3 py-2 bg-gray-50 dark:bg-gray-700" placeholder="Your name" />
+              <input name="email" required type="email" class="w-full rounded-md px-3 py-2 bg-gray-50 dark:bg-gray-700" placeholder="Your email" />
+              <textarea name="message" required rows="4" class="w-full rounded-md px-3 py-2 bg-gray-50 dark:bg-gray-700" placeholder="Your message"></textarea>
+              <div class="flex items-center gap-3">
+                <button type="submit" class="px-4 py-2 rounded-md bg-indigo-600 text-white">Send</button>
+                <button type="button" onclick="copyEmail()" class="px-4 py-2 rounded-md border">Copy email</button>
+              </div>
+            </form>
           </div>
-        </a>
+        </div>
+
+        <div class="mt-6 text-xs text-gray-500 dark:text-gray-400">
+          <p>Made with ❤️ by Xshh — SMA Regina Pacis Surakarta</p>
+        </div>
       </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER (small) -->
+  <footer class="py-6">
+    <div class="max-w-4xl mx-auto px-4 text-center text-sm text-gray-500 dark:text-gray-400">
+      © 2025 Xshh. All rights reserved.
     </div>
-    
-    <div class="col-sm-6">
-      <div class="thumbnail">
-        <a class="cap2" href="#">
-          <img src="#" target="_blank" class="img-responsive">
-          <div class="caption text-center">
-            <p>Japanese Open House 2025/2026</p>
-          </div>
-        </a>
-      </div>
-    </div>
-  </div>
-  
-  
-  <div class="row">
-    
-    <div class="col-sm-6">
-      <div class="thumbnail">
-        <a class="cap2" href="#">
-          <img src="#" target="_blank" class="img-responsive">
-          <div class="caption text-center">
-            <p>U-Tech 2025/2026</p>
-          </div>
-        </a>
-      </div>
-    </div>
-    
-    <div class="col-sm-6">
-      <div class="thumbnail">
-        <a class="cap2" href="#">
-          <img src="#" target="_blank" class="img-responsive">
-          <div class="caption text-center">
-            <p>U-Tech 2026/2027</p>
-          </div>
-        </a>
-      </div>
-    </div>
-  </div>
-  </div>
+  </footer>
 
-<!-- contact -->
-<div class="container">
+  <!-- SCRIPTS -->
+  <script>
+    // Mobile menu
+    const mobileBtn = document.getElementById('mobile-menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    mobileBtn?.addEventListener('click', () => {
+      const expanded = mobileBtn.getAttribute('aria-expanded') === 'true';
+      mobileBtn.setAttribute('aria-expanded', !expanded);
+      mobileMenu.classList.toggle('hidden');
+    });
 
-<h3 class="h3v2 text-center" id="contact">Get in touch</h3><hr>
+    // Theme toggle
+    const htmlEl = document.documentElement;
+    const themeBtn = document.getElementById('theme-toggle');
+    const themeBtnSm = document.getElementById('theme-toggle-sm');
+    const themeIcon = document.getElementById('theme-icon');
 
+    function applyTheme(theme) {
+      htmlEl.classList.toggle('dark', theme === 'dark');
+      localStorage.setItem('theme', theme);
+      if (themeIcon) themeIcon.className = (theme === 'dark') ? 'fas fa-sun' : 'fas fa-moon';
+    }
+    const savedTheme = localStorage.getItem('theme') || (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    applyTheme(savedTheme);
 
-<!-- footer -->
-<div class="footer text-center">
-  <div class="sosmed marginb">
-    <a href="https://github.com/aloysiussandyhermawan-pixel"><i class="fa fa-github fa-2x fav" aria-hidden="true"></i></a>
-    <a href="https://www.linkedin.com/in/aloysius-sandy-hermawan-oentoro/"><i class="fa fa-linkedin fa-2x fav" aria-hidden="true"></i></a>
-    <a href="https://www.instagram.com/its.notxshh/"><i class="fa fa-instagram fa-2x fav" aria-hidden="true"></i></a>
-    <a href="https://wa.me/6281392486568"><i class="fa fa-whatsapp fa-2x fav" aria-hidden="true"></i></a>
-  </div>
-  
-  <a href="#mypage"><i class="fa fa-caret-up fa-2x fav"></i></a>
-  <h4 class="h4v">Made with <i class="fa fa-heart" style="color:black;"></i> by <span style="font-family: 'Pacifico', cursive;letter-spacing: 0;">Xshh</span> in SMA Regina Pacis Surakarta</br></h4>
-    
-</div>
+    themeBtn?.addEventListener('click', () => applyTheme(document.documentElement.classList.contains('dark') ? 'light' : 'dark'));
+    themeBtnSm?.addEventListener('click', () => applyTheme(document.documentElement.classList.contains('dark') ? 'light' : 'dark'));
 
-<!-- Script Bootstrap -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    // Music controls
+    const audio = document.getElementById('audio-player');
+    const playIcon = document.querySelector('.play-button i');
+    const progressBar = document.getElementById('progress-bar');
+    const currentTimeEl = document.getElementById('current-time');
+    const durationEl = document.getElementById('duration');
 
+    function togglePlay() {
+      if (!audio) return;
+      if (audio.paused) { audio.play(); playIcon.classList.remove('fa-play'); playIcon.classList.add('fa-pause'); }
+      else { audio.pause(); playIcon.classList.remove('fa-pause'); playIcon.classList.add('fa-play'); }
+    }
+    audio?.addEventListener('loadedmetadata', () => {
+      durationEl.textContent = formatTime(audio.duration || 0);
+    });
+    audio?.addEventListener('timeupdate', () => {
+      if (!audio.duration) return;
+      const pct = (audio.currentTime / audio.duration) * 100;
+      progressBar.style.width = pct + '%';
+      currentTimeEl.textContent = formatTime(audio.currentTime);
+      durationEl.textContent = formatTime(audio.duration);
+    });
+    function seek(e) {
+      const rect = e.currentTarget.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const percent = x / rect.width;
+      if (audio.duration) audio.currentTime = percent * audio.duration;
+    }
+    function formatTime(s) {
+      if (!s || isNaN(s)) return '0:00';
+      const m = Math.floor(s / 60);
+      const sec = Math.floor(s % 60);
+      return m + ':' + (sec < 10 ? '0' + sec : sec);
+    }
+
+    // birthday countdown
+    function updateBirthdayCountdown() {
+      const today = new Date();
+      // <-- change this date to your birthday if needed -->
+      const birthday = new Date("2025-11-24");
+      birthday.setHours(0,0,0,0);
+      today.setHours(0,0,0,0);
+      const diff = birthday - today;
+      const daysLeft = Math.ceil(diff / (1000 * 60 * 60 * 24));
+      const el = document.getElementById('birthday-countdown-text');
+      if (!el) return;
+      if (daysLeft > 0) el.textContent = `${daysLeft} Days to Birthday`;
+      else if (daysLeft === 0) el.textContent = `🎂 Today is your Birthday!`;
+      else el.textContent = `🎉 Birthday Passed`;
+    }
+    updateBirthdayCountdown();
+
+    // copy email helper
+    function copyEmail() {
+      const email = 'your-email@example.com'; // replace with your email
+      navigator.clipboard?.writeText(email).then(() => {
+        alert('Email copied: ' + email);
+      }).catch(() => {
+        prompt('Copy this email:', email);
+      });
+    }
+
+    // smooth nav highlight (optional small effect)
+    const sections = document.querySelectorAll('main section[id]');
+    const navLinks = document.querySelectorAll('nav a[href^="#"]');
+    function onScroll() {
+      const scrollPos = window.scrollY + 120;
+      sections.forEach(sec => {
+        const top = sec.offsetTop;
+        const bottom = top + sec.offsetHeight;
+        if (scrollPos >= top && scrollPos < bottom) {
+          navLinks.forEach(a => a.classList.remove('font-semibold'));
+          const link = document.querySelector(`nav a[href="#${sec.id}"]`);
+          if (link) link.classList.add('font-semibold');
+        }
+      });
+    }
+    window.addEventListener('scroll', onScroll);
+    onScroll();
+
+    // simple preloader hide if you want (kept minimal)
+    window.addEventListener('load', () => { setTimeout(()=>{ document.body.classList.remove('opacity-0') }, 150); });
+  </script>
 </body>
 </html>
