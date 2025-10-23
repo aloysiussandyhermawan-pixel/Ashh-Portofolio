@@ -255,7 +255,7 @@
           <div class="flex items-center justify-between">
             <div>
               <h3 class="font-semibold">Portofolio 3D Print</h3>
-              <p class="text-xs text-gray-500 dark:text-gray-400">3D printing showcase</p>
+            <p class="text-xs text-gray-500 dark:text-gray-400">3D printing showcase</p>
             </div>
             <i class="fas fa-chevron-right text-gray-400 group-hover:text-indigo-500"></i>
           </div>
@@ -340,15 +340,16 @@
           </div>
 
           <div>
-            <!-- simple mailto form (no server needed) -->
-            <form id="contact-form" action="mailto:aloysiussandyhermawan@gmail.com" method="post" enctype="text/plain" class="space-y-3">
+            <!-- contact form uses backend now -->
+            <form id="contact-form" class="space-y-3">
               <input name="name" required class="w-full rounded-md px-3 py-2 bg-gray-50 dark:bg-gray-700" placeholder="Your name" />
               <input name="email" required type="email" class="w-full rounded-md px-3 py-2 bg-gray-50 dark:bg-gray-700" placeholder="Your email" />
               <textarea name="message" required rows="4" class="w-full rounded-md px-3 py-2 bg-gray-50 dark:bg-gray-700" placeholder="Your message"></textarea>
               <div class="flex items-center gap-3">
-                <button type="submit" class="px-4 py-2 rounded-md bg-indigo-600 text-white">Send</button>
+                <button id="sendBtn" type="submit" class="px-4 py-2 rounded-md bg-indigo-600 text-white">Send</button>
                 <button type="button" onclick="copyEmail()" class="px-4 py-2 rounded-md border">Copy email</button>
               </div>
+              <div id="form-status" class="text-sm mt-2"></div>
             </form>
           </div>
         </div>
@@ -478,6 +479,42 @@
 
     // simple preloader hide if you want (kept minimal)
     window.addEventListener('load', () => { setTimeout(()=>{ document.body.classList.remove('opacity-0') }, 150); });
+
+    // CONTACT FORM HANDLER (sends to /api/send-email)
+    const contactForm = document.getElementById('contact-form');
+    const statusEl = document.getElementById('form-status');
+    const sendBtn = document.getElementById('sendBtn');
+
+    contactForm?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (!contactForm) return;
+      sendBtn.disabled = true;
+      sendBtn.textContent = 'Sending...';
+      statusEl.textContent = '';
+
+      const data = Object.fromEntries(new FormData(contactForm).entries());
+
+      try {
+        const res = await fetch('/api/send-email', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+
+        if (res.ok) {
+          statusEl.textContent = '✅ Message sent. Thank you!';
+          contactForm.reset();
+        } else {
+          const err = await res.json().catch(()=>({ error: 'Unknown error' }));
+          statusEl.textContent = '❌ Failed to send: ' + (err.error || 'Unknown error');
+        }
+      } catch (err) {
+        statusEl.textContent = '⚠️ Network error: ' + err.message;
+      } finally {
+        sendBtn.disabled = false;
+        sendBtn.textContent = 'Send';
+      }
+    });
   </script>
 </body>
 </html>
